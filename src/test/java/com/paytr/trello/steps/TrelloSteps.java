@@ -16,14 +16,37 @@ import com.paytr.trello.services.ListService;
 import io.cucumber.java.en.*;
 import io.cucumber.picocontainer.PicoFactory;
 
+/**
+ * TrelloSteps sınıfı, Cucumber framework'ü ile Trello API'sine yapılan
+ * entegrasyon testlerinde kullanılan adımları içermektedir.
+ * Bu sınıf, adım tanımlamaları (Step Definitions) olarak bilinen ve
+ * Feature dosyalarındaki Gherkin dili ile yazılmış senaryoları
+ * gerçekleştirmek için kullanılan metotları içerir.
+ * Sağlanan temel işlevler:
+ * - Board oluşturma, liste ekleme ve kart ekleme gibi temel işlemler.
+ * - Mevcut board ve kartların doğrulanması.
+ * - Kartları güncelleme, silme ve listeleme.
+ * - API'den dönen yanıtların doğruluğunu kontrol eden Assertions kullanımı.
+ * TestContext, testlerin çalışması sırasında ortak verilerin
+ * depolanmasını ve paylaşılmasını sağlar.
+ */
+
 public class TrelloSteps {
 
+    // Trello API'ye özel servis sınıflarının örnekleri
     private final BoardService boardService;
     private final ListService listService;
     private final CardService cardService;
+
+    // Test verilerini tutmak için kullanılan bir context
     private final TestContext context;
 
-    // PicoContainer bu constructor'ı otomatik olarak kullanır
+    /**
+     * Constructor, PicoContainer tarafından otomatik olarak çağrılır.
+     * Servis sınıfları ve TestContext burada initialize edilir.
+     *
+     * @param context Test sırasında kullanılacak verilerin depolandığı context
+     */
     public TrelloSteps(TestContext context) {
         this.boardService = new BoardService();
         this.listService = new ListService();
@@ -31,11 +54,19 @@ public class TrelloSteps {
         this.context = context;
     }
 
+    /**
+     * Trello API için gerekli bilgilerin hazırlandığı adım.
+     * Kullanıcıyı bilgilendirmek için konsola bir mesaj yazdırır.
+     */
     @io.cucumber.java.en.Given("Kullanıcı Trello API için gerekli bilgileri hazırlar")
     public void kullaniciTrelloApiIcinGerekliBilgileriHazirlar() {
         System.out.println("Trello API bilgileri hazır.");
     }
 
+    /**
+     * Yeni bir board oluşturma işlemini gerçekleştirir.
+     * Board ID'si TestContext'e kaydedilir.
+     */
     @io.cucumber.java.en.When("Kullanıcı yeni bir board oluşturur")
     public void kullaniciYeniBirBoardOlusturur() {
         Response response = boardService.createBoard("Test Board", "Bu bir test boardudur.");
@@ -45,7 +76,9 @@ public class TrelloSteps {
         System.out.println("Oluşturulan Board ID: " + boardId);
     }
 
-
+    /**
+     * Oluşturulan board'un doğruluğunu kontrol eder.
+     */
     @io.cucumber.java.en.Then("Oluşturulan board doğrulanır")
     public void olusturulanBoardDogrulanir() {
         String boardId = context.getBoardId();
@@ -54,6 +87,10 @@ public class TrelloSteps {
         System.out.println("Board doğrulandı: " + boardId);
     }
 
+    /**
+     * Board'a iki adet kart ekleme işlemini gerçekleştirir.
+     * Kart ID'leri TestContext'e kaydedilir.
+     */
     @io.cucumber.java.en.And("Kullanıcı board'a iki adet kart ekler")
     public void kullaniciBoardaIkiAdetKartEkler() {
         String boardId = context.getBoardId();
@@ -72,7 +109,9 @@ public class TrelloSteps {
         }
     }
 
-
+    /**
+     * Eklenen kartların doğruluğunu kontrol eder.
+     */
     @io.cucumber.java.en.Then("Kartlar doğrulanır")
     public void kartlarDogrulanir() {
         List<String> cardIds = context.getCardIds();
@@ -83,6 +122,9 @@ public class TrelloSteps {
         }
     }
 
+    /**
+     * Board'daki mevcut kartların listesini alır.
+     */
     @io.cucumber.java.en.Given("Kullanıcı board'daki mevcut kartları alır")
     public void kullaniciBoarddakiMevcutKartlariAlir() {
         String boardId = context.getBoardId();
@@ -104,6 +146,9 @@ public class TrelloSteps {
         System.out.println("Mevcut Kartlar: " + cards);
     }
 
+    /**
+     * Board'daki mevcut kartlardan rastgele birini seçer.
+     */
     @io.cucumber.java.en.When("Kullanıcı kartlardan bir tanesini random seçer")
     public void kullaniciKartlardanBirTanesiniRandomSecer() {
         List<String> cardIds = context.getCardIds();
@@ -113,8 +158,11 @@ public class TrelloSteps {
         System.out.println("Seçilen Kart ID: " + selectedCardId);
     }
 
+    /**
+     * Seçilen kartın bilgilerini günceller.
+     */
     @io.cucumber.java.en.And("Kullanıcı random seçilen kartı günceller")
-    public void kullaniciRandomSecilenKartıGunceller() {
+    public void kullaniciRandomSecilenKartiGunceller() {
         String cardId = context.getSelectedCardId();
         String newName = "Updated Card Name";
         String newDesc = "This is the updated description";

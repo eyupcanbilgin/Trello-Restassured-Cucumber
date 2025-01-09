@@ -3,13 +3,27 @@ package com.paytr.trello.context;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TestContext sınıfı, test senaryolarında kullanılan veri akışını ve durum bilgisini yönetmek için tasarlanmıştır.
+ * Sınıfın temel işlevleri:
+ * - Test sırasında oluşturulan Board (Pano), List (Liste) ve Card (Kart) gibi öğelerin ID bilgilerini saklama.
+ * - Seçilen kart (selectedCardId) veya oluşturulan öğelerle ilgili bağlamsal bilgileri tutma.
+ * - Testlerde kullanılan board adı ve açıklaması gibi ek detayları saklama.
+ * - Her test adımının bağımsız olmasını sağlamak için bağlamsal bilgilerin yönetimini kolaylaştırma.
+ * Sağlanan özellikler:
+ * - Oluşturulan board, liste ve kartların ID'lerini set/get metotlarıyla yönetme.
+ * - Listelenen kart ID'lerini bir liste olarak saklama ve yeni kartları listeye ekleme.
+ * - Rastgele seçilen kart gibi test senaryolarında ihtiyaç duyulan verileri yönetme.
+ * Bu sınıf, testler arası veri taşımayı kolaylaştırır ve senaryoların birbirine bağımlı olmamasını sağlar.
+ */
+
 public class TestContext {
     private String boardId;
     private String listId;
     private List<String> cardIds = new ArrayList<>();
     private String selectedCardId;
-    private String boardName; // Yeni alan
-    private String boardDescription; // Yeni alan
+    private String boardName;
+    private String boardDescription;
 
     // Getter ve Setter'lar
     public String getBoardId() {
@@ -48,19 +62,19 @@ public class TestContext {
         this.selectedCardId = selectedCardId;
     }
 
-    public String getBoardName() { // Yeni getter
+    public String getBoardName() {
         return boardName;
     }
 
-    public void setBoardName(String boardName) { // Yeni setter
+    public void setBoardName(String boardName) {
         this.boardName = boardName;
     }
 
-    public String getBoardDescription() { // Yeni getter
+    public String getBoardDescription() {
         return boardDescription;
     }
 
-    public void setBoardDescription(String boardDescription) { // Yeni setter
+    public void setBoardDescription(String boardDescription) {
         this.boardDescription = boardDescription;
     }
 }
