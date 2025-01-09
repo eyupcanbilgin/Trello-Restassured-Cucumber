@@ -55,17 +55,3 @@ Testleri çalıştırın:
 bash
 Kodu kopyala
 mvn test
-Lisans
-Bu proje MIT lisansı altındadır. Detaylar için LICENSE dosyasını inceleyebilirsiniz.
-
-yaml
-Kodu kopyala
-
----
-
-Bu dosyayı projenin ana dizinine ekleyip GitHub’a push edebilirsin. Eğer eklemekle ilgili yardıma ihtiyacın olursa, hemen sorabilirsin! 😊
-
-
-
-
-
